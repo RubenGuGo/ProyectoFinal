@@ -1,6 +1,7 @@
 package es.cic.curso10.backend.Model;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,8 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+
 
 @Entity
 public class Evento {
@@ -36,16 +36,13 @@ public class Evento {
     @Column(length = 100)
     private String direccion;
 
-    @Temporal(TemporalType.DATE)
-    private Date fecha;
+    private LocalDate fecha;
 
-    @Temporal(TemporalType.TIME)
-    private Date horaInicio;
+    private LocalTime horaInicio;
+    
+    private LocalTime horaFinal;
 
-    @Temporal(TemporalType.TIME)
-    private Date horaFinal;
-
-    @OneToMany
+    @OneToMany(mappedBy = "evento")
     private List<TipoApuesta> tiposDeApuestas;
 
     // Getters and Setters
@@ -97,27 +94,27 @@ public class Evento {
         this.direccion = direccion;
     }
 
-    public Date getFecha() {
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 
-    public Date getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(Date horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public Date getHoraFinal() {
+    public LocalTime getHoraFinal() {
         return horaFinal;
     }
 
-    public void setHoraFinal(Date horaFinal) {
+    public void setHoraFinal(LocalTime horaFinal) {
         this.horaFinal = horaFinal;
     }
 
@@ -132,7 +129,7 @@ public class Evento {
     @PrePersist
     @PreUpdate
     private void validateHoraInicio() {
-        if (horaInicio != null && horaFinal != null && horaInicio.after(horaFinal)) {
+        if (horaInicio != null && horaFinal != null && horaInicio.isAfter(horaFinal)) {
             throw new IllegalArgumentException("La hora de inicio no puede ser después de la hora final");
         }
     }
