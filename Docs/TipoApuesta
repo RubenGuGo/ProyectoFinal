@@ -1,0 +1,7 @@
+        Id          Long
+50      Nombre      String      No null
+250     Descripcion String
+        Maxima      Long        No negativo
+        Minima      Long        No negativo
+        Combinada   Boolean     
+        Evento                  No null

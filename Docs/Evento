@@ -1,0 +1,11 @@
+           Id           Long
+50         Nombre       String
+250        Descripcion  String
+100        Pais         String
+100        Ciudad       String
+100        Direcion     String
+           Fecha        Date
+           HoraInicio          No puede inicar desues de la HoraFinal
+           HoraFianl   
+           Tipos        
+           de apuestas
