@@ -1,12 +1,11 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import axios from 'axios';
-import { useRouter, useRoute } from 'vue-router';
 
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
 const isEditMode = ref(false);
-const isViewMode = ref(false);
 const evento = ref({
   nombre: '',
   descripcion: '',
@@ -23,98 +22,66 @@ const fetchEvento = async (id) => {
   evento.value = response.data;
 };
 
-const handleSubmit = async () => {
+const submitForm = async () => {
   if (isEditMode.value) {
     await axios.put(`/api/eventos/${route.params.id}`, evento.value);
   } else {
     await axios.post('/api/eventos', evento.value);
   }
-  router.push('/');
+  router.push('/eventos');
 };
 
 onMounted(() => {
   if (route.params.id) {
-    if (route.name === 'viewEvento') {
-      isViewMode.value = true;
-    } else {
-      isEditMode.value = true;
-    }
+    isEditMode.value = true;
     fetchEvento(route.params.id);
   }
 });
 </script>
+
 <template>
-    <div>
-      <h1>{{ isEditMode ? 'Editar Evento' : isViewMode ? 'Ver Evento' : 'Crear Evento' }}</h1>
-      <form @submit.prevent="handleSubmit" v-if="!isViewMode">
-        <div>
-          <label>Nombre:</label>
-          <input v-model="evento.nombre" :disabled="isViewMode" required />
-        </div>
-        <div>
-          <label>Descripción:</label>
-          <input v-model="evento.descripcion" :disabled="isViewMode" />
-        </div>
-        <div>
-          <label>País:</label>
-          <input v-model="evento.pais" :disabled="isViewMode" />
-        </div>
-        <div>
-          <label>Ciudad:</label>
-          <input v-model="evento.ciudad" :disabled="isViewMode" />
-        </div>
-        <div>
-          <label>Dirección:</label>
-          <input v-model="evento.direccion" :disabled="isViewMode" />
-        </div>
-        <div>
-          <label>Fecha:</label>
-          <input type="date" v-model="evento.fecha" :disabled="isViewMode" />
-        </div>
-        <div>
-          <label>Hora Inicio:</label>
-          <input type="time" v-model="evento.horaInicio" :disabled="isViewMode" />
-        </div>
-        <div>
-          <label>Hora Final:</label>
-          <input type="time" v-model="evento.horaFinal" :disabled="isViewMode" />
-        </div>
-        <button type="submit">{{ isEditMode ? 'Actualizar' : 'Crear' }}</button>
-      </form>
-      <div v-else>
-        <div>
-          <label>Nombre:</label>
-          <span>{{ evento.nombre }}</span>
-        </div>
-        <div>
-          <label>Descripción:</label>
-          <span>{{ evento.descripcion }}</span>
-        </div>
-        <div>
-          <label>País:</label>
-          <span>{{ evento.pais }}</span>
-        </div>
-        <div>
-          <label>Ciudad:</label>
-          <span>{{ evento.ciudad }}</span>
-        </div>
-        <div>
-          <label>Dirección:</label>
-          <span>{{ evento.direccion }}</span>
-        </div>
-        <div>
-          <label>Fecha:</label>
-          <span>{{ evento.fecha }}</span>
-        </div>
-        <div>
-          <label>Hora Inicio:</label>
-          <span>{{ evento.horaInicio }}</span>
-        </div>
-        <div>
-          <label>Hora Final:</label>
-          <span>{{ evento.horaFinal }}</span>
-        </div>
+  <div>
+    <h1>{{ isEditMode ? 'Editar Evento' : 'Crear Evento' }}</h1>
+    <form @submit.prevent="submitForm">
+      <div>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" v-model="evento.nombre" required />
       </div>
-    </div>
-  </template>
-  
+      <div>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" v-model="evento.descripcion" />
+      </div>
+      <div>
+        <label for="pais">País:</label>
+        <input type="text" id="pais" v-model="evento.pais" />
+      </div>
+      <div>
+        <label for="ciudad">Ciudad:</label>
+        <input type="text" id="ciudad" v-model="evento.ciudad" />
+      </div>
+      <div>
+        <label for="direccion">Dirección:</label>
+        <input type="text" id="direccion" v-model="evento.direccion" />
+      </div>
+      <div>
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" v-model="evento.fecha" required />
+      </div>
+      <div>
+        <label for="horaInicio">Hora Inicio:</label>
+        <input type="time" id="horaInicio" v-model="evento.horaInicio" required />
+      </div>
+      <div>
+        <label for="horaFinal">Hora Final:</label>
+        <input type="time" id="horaFinal" v-model="evento.horaFinal" required />
+      </div>
+      <button type="submit">{{ isEditMode ? 'Actualizar' : 'Crear' }}</button>
+    </form>
+  </div>
+</template>
+
+
+
+<style>
+/* Add your styles here */
+</style>

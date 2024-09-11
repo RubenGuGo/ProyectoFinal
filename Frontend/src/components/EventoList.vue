@@ -1,3 +1,44 @@
+<template>
+  <div>
+    <h1>Eventos</h1>
+    <router-link to="/crear-evento  ">Crear Evento</router-link>
+    <table>
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>País</th>
+          <th>Ciudad</th>
+          <th>Dirección</th>
+          <th>Fecha</th>
+          <th>Hora Inicio</th>
+          <th>Hora Final</th>
+          <th>Tipos de apuestas</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="evento in eventos" :key="evento.id">
+          <td>{{ evento.nombre }}</td>
+          <td>{{ evento.descripcion }}</td>
+          <td>{{ evento.pais }}</td>
+          <td>{{ evento.ciudad }}</td>
+          <td>{{ evento.direccion }}</td>
+          <td>{{ evento.fecha }}</td>
+          <td>{{ evento.horaInicio }}</td>
+          <td>{{ evento.horaFinal }}</td>
+          <td>{{ evento.tipoApuestas ? evento.tipoApuestas.length : 0 }}</td>
+          <td>
+            <router-link :to="`/crear-evento/${evento.id}`">Ver</router-link>
+            <router-link :to="`/editar-evento/${evento.id}`">Editar</router-link>
+            <button @click="deleteEvento(evento.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
@@ -16,48 +57,6 @@ const deleteEvento = async (id) => {
 
 onMounted(fetchEventos);
 </script>
-
-<template>
-  <div>
-    <h1>Eventos</h1>
-    <router-link to="/">Inicio</router-link>
-    <router-link to="/create">Crear Evento</router-link>
-    <table>
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>País</th>
-          <th>Ciudad</th>
-          <th>Dirección</th>
-          <th>Fecha</th>
-          <th>Hora Inicio</th>
-          <th>Hora Final</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="evento in eventos" :key="evento.id">
-          <td>{{ evento.nombre }}</td>
-          <td>{{ evento.descripcion }}</td>
-          <td>{{ evento.pais }}</td>
-          <td>{{ evento.ciudad }}</td>
-          <td>{{ evento.direccion }}</td>
-          <td>{{ evento.fecha }}</td>
-          <td>{{ evento.horaInicio }}</td>
-          <td>{{ evento.horaFinal }}</td>
-          <td>
-            <router-link :to="`/view/${evento.id}`">Ver</router-link>
-            <router-link :to="`/edit/${evento.id}`">Editar</router-link>
-            <button @click="deleteEvento(evento.id)">Eliminar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</template>
-
-
 
 <style>
 table {
