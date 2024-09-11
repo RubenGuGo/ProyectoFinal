@@ -1,5 +1,7 @@
 package es.cic.curso10.backend.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,6 +17,7 @@ public class TipoApuesta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_tipoApuesta")
     private Long id;
 
     @Column(nullable = false, length = 50)
@@ -33,10 +36,26 @@ public class TipoApuesta {
     private Boolean combinada;
 
     @ManyToOne
-    @JoinColumn(name = "evento_id")
+    @JoinColumn(name = "ID_evento", nullable = false)
+    @JsonIgnoreProperties("tiposDeApuestas")
     private Evento evento;
 
+    public TipoApuesta(Long id, @NotNull String nombre, String descripcion, @Min(0) Long maxima, @Min(0) Long minima,
+            Boolean combinada, Evento evento) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.maxima = maxima;
+        this.minima = minima;
+        this.combinada = combinada;
+        this.evento = evento;
+    }
+
+    public TipoApuesta() {
+    }
+
     public void setEvento(Evento evento) {
+        evento.getTiposDeApuestas().add(this);
         this.evento = evento;
     }
 

@@ -3,6 +3,7 @@ package es.cic.curso10.backend.Model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.ArrayList; 
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +20,7 @@ public class Evento {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_evento")
     private Long id;
 
     @Column(length = 50)
@@ -44,6 +46,24 @@ public class Evento {
 
     @OneToMany(mappedBy = "evento")
     private List<TipoApuesta> tiposDeApuestas;
+
+    public Evento(Long id, String nombre, String descripcion, String pais, String ciudad, String direccion,
+            LocalDate fecha, LocalTime horaInicio, LocalTime horaFinal, List<TipoApuesta> tiposDeApuestas) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.pais = pais;
+        this.ciudad = ciudad;
+        this.direccion = direccion;
+        this.fecha = fecha;
+        this.horaInicio = horaInicio;
+        this.horaFinal = horaFinal;
+        this.tiposDeApuestas = tiposDeApuestas;
+    }
+
+    public Evento() {
+        tiposDeApuestas = new ArrayList<>();
+    }
 
     // Getters and Setters
     public Long getId() {
