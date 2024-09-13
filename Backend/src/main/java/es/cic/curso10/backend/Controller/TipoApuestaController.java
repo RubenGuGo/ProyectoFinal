@@ -1,8 +1,6 @@
 package es.cic.curso10.backend.Controller;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +16,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/tipoapuestas")
 public class TipoApuestaController {
-
-    private static final Logger logger = LoggerFactory.getLogger(TipoApuestaController.class);
 
     @Autowired
     private TipoApuestaService tipoApuestaService;
@@ -40,12 +36,6 @@ public class TipoApuestaController {
 
     @PostMapping
     public ResponseEntity<TipoApuesta> createTipoApuesta(@RequestBody TipoApuesta tipoApuesta) {
-        logger.info("Evento: !!!!!!!!!" );
-        logger.info("Evento: " + tipoApuesta.toString());
-        if (tipoApuesta.getEvento() == null || tipoApuesta.getEvento().getId() == null) {
-            return ResponseEntity.badRequest().build();
-        }
-        
         Evento evento = eventoRepository.findById(tipoApuesta.getEvento().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Evento no encontrado"));
 

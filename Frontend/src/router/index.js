@@ -26,7 +26,7 @@ const routes = [
   { 
     path: '/ver-evento/:id',
     component: EventoForm,
-    props: true,
+    props: route => ({ ...route.params, readOnly: route.query.readOnly === 'true' }),
     name: 'viewEvento' 
   },
   {
