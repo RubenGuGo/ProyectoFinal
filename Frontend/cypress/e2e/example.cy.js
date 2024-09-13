@@ -1,8 +1,10 @@
-// https://on.cypress.io/api
+describe('Home Page', () => {
+  it('should load the home page', () => {
+    cy.visit('/');
+    cy.contains('Bienvenido a Apuestas Deportivas');
+    cy.contains('Regístrate Ahora');
+    cy.contains('Explora Eventos');
+    cy.contains('Explora Tipos de Apuestas');
+  });
+});
 
-describe('My First Test', () => {
-  it('visits the app root url', () => {
-    cy.visit('/')
-    cy.contains('h1', 'You did it!')
-  })
-})
